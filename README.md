@@ -1,4 +1,4 @@
-# CipherGuard — artifact
+# CipherGuard 
 
 **Reference-free detection of test-vector–passing cryptographic backdoors in lightweight block-cipher implementations, via the data-oblivious invariant.**
 
