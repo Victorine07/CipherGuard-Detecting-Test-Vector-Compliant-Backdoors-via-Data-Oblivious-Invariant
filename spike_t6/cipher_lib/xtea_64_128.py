@@ -1,0 +1,161 @@
+"""
+XTEA-64/128 block cipher (single-variant, tiered implementation).
+Simple Feistel cipher.
+
+T1: Constants
+T2: Primitives (F round-function, encrypt/decrypt half-rounds)
+T3: Structural Components (key word selection -- XTEA has no real key
+    expansion, just indexed lookups into the raw 128-bit key)
+T4: Orchestration (cycle iteration, encrypt/decrypt)
+
+Reference: Wheeler & Needham, "TEA extensions" (1997), public-domain
+reference implementation as reproduced on Wikipedia's XTEA article
+(https://en.wikipedia.org/wiki/XTEA) -- the canonical encipher/decipher
+C routines, identical across virtually every independent XTEA
+implementation. Compiled directly via gcc and run as a verification
+oracle for the test vectors below.
+"""
+
+
+BLOCK_SIZE = 64
+KEY_SIZE = 128
+WORD_SIZE = 32
+ROUNDS = 32
+DELTA = 0x9E3779B9
+
+WORD_MASK = (1 << WORD_SIZE) - 1
+BLOCK_MASK = (1 << BLOCK_SIZE) - 1
+KEY_MASK = (1 << KEY_SIZE) - 1
+
+
+def xtea_64_128_round_function(x: int) -> int:
+    """The F function: ((x << 4) ^ (x >> 5)) + x, mod 2^32."""
+    return (((x << 4) ^ (x >> 5)) + x) & WORD_MASK
+
+
+def xtea_64_128_select_key_word(key_words: list[int], sum_: int, shift: int) -> int:
+    """XTEA has no real key schedule: just index the raw key by (sum >> shift) & 3."""
+    return key_words[(sum_ >> shift) & 3]
+
+
+def xtea_64_128_encrypt_half_round(updating: int, source: int, key_word: int, sum_: int) -> int:
+    """One encryption half-round: updating += F(source) ^ (sum + key_word)."""
+    return (updating + (xtea_64_128_round_function(source) ^ ((sum_ + key_word) & WORD_MASK))) & WORD_MASK
+
+
+def xtea_64_128_decrypt_half_round(updating: int, source: int, key_word: int, sum_: int) -> int:
+    """Inverse of one encryption half-round."""
+    return (updating - (xtea_64_128_round_function(source) ^ ((sum_ + key_word) & WORD_MASK))) & WORD_MASK
+
+
+def xtea_64_128_block_to_words(block: int) -> tuple[int, int]:
+    """Split a 64-bit block into (v0, v1), v0 = high word, v1 = low word."""
+    return (block >> WORD_SIZE) & WORD_MASK, block & WORD_MASK
+
+
+def xtea_64_128_words_to_block(v0: int, v1: int) -> int:
+    """Pack (v0, v1) back into a 64-bit block."""
+    return ((v0 & WORD_MASK) << WORD_SIZE) | (v1 & WORD_MASK)
+
+
+def xtea_64_128_key_to_words(key: int) -> list[int]:
+    """Split a 128-bit key into 4 32-bit words, key_words[0] = highest word."""
+    return [(key >> (WORD_SIZE * (3 - i))) & WORD_MASK for i in range(4)]
+
+
+def xtea_64_128_encrypt_cycle(v0: int, v1: int, sum_: int, key_words: list[int]) -> tuple[int, int, int]:
+    """One full XTEA cycle: update v0, advance sum, update v1."""
+    k0 = xtea_64_128_select_key_word(key_words, sum_, 0)
+    v0 = xtea_64_128_encrypt_half_round(v0, v1, k0, sum_)
+    sum_ = (sum_ + DELTA) & WORD_MASK
+    k1 = xtea_64_128_select_key_word(key_words, sum_, 11)
+    v1 = xtea_64_128_encrypt_half_round(v1, v0, k1, sum_)
+    return v0, v1, sum_
+
+
+def xtea_64_128_decrypt_cycle(v0: int, v1: int, sum_: int, key_words: list[int]) -> tuple[int, int, int]:
+    """Inverse of one full XTEA cycle."""
+    k1 = xtea_64_128_select_key_word(key_words, sum_, 11)
+    v1 = xtea_64_128_decrypt_half_round(v1, v0, k1, sum_)
+    sum_ = (sum_ - DELTA) & WORD_MASK
+    k0 = xtea_64_128_select_key_word(key_words, sum_, 0)
+    v0 = xtea_64_128_decrypt_half_round(v0, v1, k0, sum_)
+    return v0, v1, sum_
+
+
+def xtea_64_128_encrypt_rounds_iterate(
+    v0: int, v1: int, sum_: int, key_words: list[int], i: int
+) -> tuple[int, int]:
+    """Recursive encryption iterator over all ROUNDS cycles."""
+    if i >= ROUNDS:
+        return v0, v1
+    v0, v1, sum_ = xtea_64_128_encrypt_cycle(v0, v1, sum_, key_words)
+    return xtea_64_128_encrypt_rounds_iterate(v0, v1, sum_, key_words, i + 1)
+
+
+def xtea_64_128_decrypt_rounds_iterate(
+    v0: int, v1: int, sum_: int, key_words: list[int], i: int
+) -> tuple[int, int]:
+    """Recursive decryption iterator over all ROUNDS cycles."""
+    if i >= ROUNDS:
+        return v0, v1
+    v0, v1, sum_ = xtea_64_128_decrypt_cycle(v0, v1, sum_, key_words)
+    return xtea_64_128_decrypt_rounds_iterate(v0, v1, sum_, key_words, i + 1)
+
+
+def xtea_64_128_encrypt(plaintext: int, master_key: int) -> int:
+    """Encrypt one 64-bit block under one 128-bit key."""
+    key_words = xtea_64_128_key_to_words(master_key)
+    v0, v1 = xtea_64_128_block_to_words(plaintext & BLOCK_MASK)
+    v0, v1 = xtea_64_128_encrypt_rounds_iterate(v0, v1, 0, key_words, 0)
+    return xtea_64_128_words_to_block(v0, v1)
+
+
+def xtea_64_128_decrypt(ciphertext: int, master_key: int) -> int:
+    """Decrypt one 64-bit block under one 128-bit key."""
+    key_words = xtea_64_128_key_to_words(master_key)
+    initial_sum = (DELTA * ROUNDS) & WORD_MASK
+    v0, v1 = xtea_64_128_block_to_words(ciphertext & BLOCK_MASK)
+    v0, v1 = xtea_64_128_decrypt_rounds_iterate(v0, v1, initial_sum, key_words, 0)
+    return xtea_64_128_words_to_block(v0, v1)
+
+
+def xtea_64_128_test() -> bool:
+    """Test vectors generated by compiling and running the canonical public-domain
+    Wheeler/Needham reference implementation (see module docstring)."""
+    print("=" * 60)
+    print("Testing XTEA-64/128")
+    print("=" * 60)
+
+    vectors = [
+        (0x00000000000000000000000000000000, 0x0000000000000000, 0xdee9d4d8f7131ed9),
+        (0x000102030405060708090a0b0c0d0e0f, 0x4142434445464748, 0x497df3d072612cb5),
+        (0x123456789abcdef0fedcba9876543210, 0xdeadbeefcafebabe, 0x8b7493ac7766389c),
+        (0xffffffffffffffffffffffffffffffff, 0xffffffffffffffff, 0x28fc2891e623566a),
+    ]
+
+    all_ok = True
+    for idx, (key, pt, expected_ct) in enumerate(vectors, start=1):
+        ct = xtea_64_128_encrypt(pt, key)
+        dec = xtea_64_128_decrypt(ct, key)
+        ok_enc = ct == expected_ct
+        ok_dec = dec == pt
+        print(f"Test Vector {idx}:")
+        print(f"  Key:        0x{key:032X}")
+        print(f"  Plaintext:  0x{pt:016X}")
+        print(f"  Ciphertext: 0x{ct:016X}")
+        print(f"  Expected:   0x{expected_ct:016X}")
+        print(f"  Decrypted:  0x{dec:016X}")
+        print("  ✅ PASSED" if (ok_enc and ok_dec) else "  ❌ FAILED")
+        all_ok = all_ok and ok_enc and ok_dec
+
+    print()
+    print("✅ All XTEA-64/128 tests passed!" if all_ok else "❌ XTEA-64/128 TEST FAILURE")
+    print("=" * 60)
+    return all_ok
+
+
+if __name__ == "__main__":
+    success = xtea_64_128_test()
+    if not success:
+        raise SystemExit(1)
