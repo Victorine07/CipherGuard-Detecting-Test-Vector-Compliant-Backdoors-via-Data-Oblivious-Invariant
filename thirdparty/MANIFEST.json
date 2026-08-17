@@ -1,0 +1,84 @@
+{
+  "description": "Vendored third-party lightweight-cipher implementations used by the conformance study (scripts/e11_conformance.py). Stored in-repo so the differential test is reproducible on an offline cluster node. Each is compared against our HOL-verified reference for the same cipher; the 'label' field is the anonymized name used in the paper.",
+  "fetched": "2026-08-11",
+  "license_note": "These files are third-party code retained for evaluation/reproducibility only. Verify each project's license before any public redistribution.",
+  "implementations": [
+    {
+      "label": "inmcm-simon",
+      "public_desc": "widely-used Simon/Speck library",
+      "file": "impls/inmcm_simon.py",
+      "cipher": "simon",
+      "source": "https://github.com/inmcm/Simon_Speck_Ciphers",
+      "adapter": {"kind": "class_ss", "cls": "SimonCipher"},
+      "variants": ["simon_32_64","simon_48_72","simon_48_96","simon_64_96","simon_64_128","simon_96_96","simon_96_144","simon_128_128","simon_128_192","simon_128_256"],
+      "expected": "conforming",
+      "notes": "reference Python implementation of Simon"
+    },
+    {
+      "label": "inmcm-speck",
+      "public_desc": "widely-used Simon/Speck library",
+      "file": "impls/inmcm_speck.py",
+      "cipher": "speck",
+      "source": "https://github.com/inmcm/Simon_Speck_Ciphers",
+      "adapter": {"kind": "class_ss", "cls": "SpeckCipher"},
+      "variants": ["speck_32_64","speck_48_72","speck_48_96","speck_64_96","speck_64_128","speck_96_96","speck_96_144","speck_128_128","speck_128_192","speck_128_256"],
+      "expected": "conforming",
+      "notes": "reference Python implementation of Speck"
+    },
+    {
+      "label": "impl_A",
+      "public_desc": "GitHub PRESENT implementation",
+      "file": "impls/present_gebril.py",
+      "cipher": "present",
+      "source": "https://github.com/Moh-Gebril/Present-Algorithm",
+      "adapter": {"kind": "class_int", "cls": "Present"},
+      "variants": ["present_64_80"],
+      "expected": "conforming",
+      "notes": "31 rounds + whitening, counter 1..31; class/int I/O"
+    },
+    {
+      "label": "impl_B",
+      "public_desc": "GitHub PRESENT implementation",
+      "file": "impls/present_careful.py",
+      "cipher": "present",
+      "source": "https://github.com/Careful-Man/PresentCipher",
+      "adapter": {"kind": "class_bytes", "cls": "Present"},
+      "variants": ["present_64_80"],
+      "expected": "conforming",
+      "notes": "pypresent-style, bytes I/O; imports legacy 'Padding' (stubbed at load)"
+    },
+    {
+      "label": "impl_C",
+      "public_desc": "GitHub PRESENT implementation",
+      "file": "impls/present_elregonzo.py",
+      "cipher": "present",
+      "source": "https://github.com/elregonzo/present_python",
+      "adapter": {"kind": "func_int", "entry": "present_cipher"},
+      "variants": ["present_64_80"],
+      "expected": "conforming",
+      "notes": "Python 2 (xrange shimmed at load); func/int I/O"
+    },
+    {
+      "label": "impl_D",
+      "public_desc": "GitHub PRESENT implementation",
+      "file": "impls/present_chetani.py",
+      "cipher": "present",
+      "source": "https://github.com/chetaniitbhilai/Present_Crypto",
+      "adapter": {"kind": "func_hex", "entry": "encrypt"},
+      "variants": ["present_64_80"],
+      "expected": "non-conforming",
+      "notes": "NON-CONFORMING: key-schedule round counter runs 0..31 instead of 1..31; func/hex I/O"
+    },
+    {
+      "label": "impl_E",
+      "public_desc": "GitHub XTEA implementation",
+      "file": "impls/xtea_marty.py",
+      "cipher": "xtea",
+      "source": "https://github.com/martysama0134/python-tea",
+      "adapter": {"kind": "func_bytes", "entry": "xtea_encrypt", "extra_args": ["!"]},
+      "variants": ["xtea_64_128"],
+      "expected": "conforming",
+      "notes": "canonical struct-based XTEA; mechanical Python-3 port (see file header); big-endian words"
+    }
+  ]
+}

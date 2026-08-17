@@ -1,0 +1,18 @@
+# CipherGuard training deps (stage 05, the Hybrid GAT+MLP).
+# The numpy pipeline (stages 00-04, E6, E7) needs only numpy and runs anywhere.
+#
+# CPU IS ENOUGH for the current dataset (222 small graphs) -- a GPU is optional and
+# only helps if you scale the dataset/model up a lot. Use Python 3.10-3.12 (3.13 is
+# too new for stable torch/PyG wheels).
+#
+# CPU install (simplest):
+#   python3.11 -m venv .venv && source .venv/bin/activate
+#   pip install torch --index-url https://download.pytorch.org/whl/cpu
+#   pip install torch_geometric numpy
+#
+# GPU install (only if you scale up): swap the index-url for a CUDA build, e.g.
+#   pip install torch --index-url https://download.pytorch.org/whl/cu121
+#
+numpy>=1.26
+torch>=2.2
+torch_geometric>=2.5
