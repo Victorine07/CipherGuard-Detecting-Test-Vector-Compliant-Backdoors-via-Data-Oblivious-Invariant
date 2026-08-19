@@ -1,9 +1,4 @@
-"""Central path resolution for CipherGuard (cluster-safe).
-
-PROJECT_ROOT is derived from this file's location -- never from the CWD -- so
-scripts behave identically on a laptop and on a non-interactive cluster node.
-All outputs default to project-relative directories; callers may override any
-path via CLI flags / env vars (see each stage script).
+"""Central path resolution for CipherGuard
 """
 from __future__ import annotations
 import os
