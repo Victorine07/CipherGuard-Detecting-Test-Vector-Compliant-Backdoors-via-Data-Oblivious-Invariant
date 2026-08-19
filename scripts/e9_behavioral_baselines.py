@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 """
 e9_behavioral_baselines.py -- realistic behavioral defenses vs. CipherGuard (RQ1, de-tautologized).
-
-The "money experiment" must not be circular ("test-vector-only misses test-vector-passing
-backdoors"). This experiment shows the deeper, non-trivial fact: a rare-trigger backdoor is
+This experiment shows the deeper, non-trivial fact: a rare-trigger backdoor is
 behaviorally IDENTICAL to a clean cipher except on a measure-2^-t trigger set, so EVERY
 behavioral defense a real auditor would run misses it:
 
@@ -18,8 +16,6 @@ CipherGuard reads the code STRUCTURE, so its detection is independent of trigger
 This is the real contrast: behavioral testing fundamentally cannot catch a rare-trigger
 backdoor; structural analysis can.
 
-Cluster-safe; numpy-free; reuses the verified backdoor styles + oracle. In-scope block
-ciphers only (AEAD excluded). Usage: python scripts/e9_behavioral_baselines.py [--M 400]
 """
 from __future__ import annotations
 import argparse
