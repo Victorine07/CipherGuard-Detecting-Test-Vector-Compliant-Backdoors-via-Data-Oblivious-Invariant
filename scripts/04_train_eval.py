@@ -2,8 +2,6 @@
 """
 04_train_eval.py -- CipherGuard Stage 04: detector + go/no-go gate.
 
-Trains numpy detectors over the graph readout and runs the make-or-break experiments
-(ROADMAP Phase 4 gate):
 
   E0  in-distribution detection            (split_random)           -> sanity floor
   E1  MONEY: caught despite passing tests  (split_tamper_holdoutT6) -> tv-only vs us
@@ -14,7 +12,6 @@ Two detectors: supervised logistic (tampered-vs-clean) and one-class (clean-only
 anomaly). Baselines: test-vector-only, invertibility-only. Outputs metrics.json,
 per-experiment predictions, a report, and a printed GATE verdict.
 
-Cluster-safe; checkpoint-logged; numpy only (full GAT+MLP is the Phase-5 model).
 """
 from __future__ import annotations
 import argparse
