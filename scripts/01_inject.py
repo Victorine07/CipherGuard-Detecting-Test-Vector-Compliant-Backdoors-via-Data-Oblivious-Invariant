@@ -11,10 +11,8 @@ For each registry variant with an executable model, emits:
   * T6: one item per BACKDOOR STYLE (S1..S6, src/tamper/backdoor_styles.py) -- the real
     structural diversity, aligning the training set with the E6 robustness study.
 
-Every item passes the oracle effect-gate (no fake items). Outputs per DATASET.md +
-a `tamper_style` field (S1..S6 for T6, else null).
+Every item passes the oracle effect-gate (no fake items). 
 
-Cluster-safe; checkpoint-logged; no Isabelle / network required.
 Usage: python scripts/01_inject.py [--limit N] [--t3-variants K] [--models-dir DIR]
 """
 from __future__ import annotations
