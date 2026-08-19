@@ -6,7 +6,7 @@ public repositories. They are the *candidates* in the Gate-2 conformance study
 
 ## Why vendored (not fetched at runtime)
 
-Compute nodes are assumed to have **no internet** (`CLAUDE.md` §7). The files were fetched once and
+Compute nodes are assumed to have **no internet**. The files were fetched once and
 committed here so the differential test runs identically and reproducibly offline. `MANIFEST.json`
 records, for each implementation, its source URL, the cipher and variants it covers, the adapter
 needed to drive it, its expected verdict, and the anonymized label used in the paper.
