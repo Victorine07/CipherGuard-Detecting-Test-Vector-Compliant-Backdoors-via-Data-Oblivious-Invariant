@@ -6,9 +6,6 @@ Replaces the numpy readout (Stage 04) with the real graph model, run across the
 leakage-free splits, multi-seed, with mean +/- std. Requires torch + torch_geometric
 (requirements-gpu.txt); on a box without them it prints setup instructions and exits 0.
 
-Outputs: results/gat/metrics.json, checkpoints/gat/<split>_seed<k>.pt, reports/gat/*/report.md.
-Cluster-safe: PROJECT_ROOT from __file__, checkpoint logging, deterministic seeds, no net.
-
 Usage (cluster): python scripts/05_train_gat.py --epochs 150 --seeds 5
 """
 from __future__ import annotations
