@@ -1,7 +1,7 @@
 """Corpus verification for Stage 00 (CipherGuard).
 
 Ground truth ultimately comes from Isabelle (test-vector + invertibility lemmas).
-Compute nodes have no Isabelle (CLAUDE.md Section 7), so verification is a
+Compute nodes have no Isabelle, so verification is a
 separable, cached concern with three honest outcomes per variant:
 
   * isabelle_available : an Isabelle install is on PATH -> a full HOL session
