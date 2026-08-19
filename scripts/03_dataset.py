@@ -2,8 +2,6 @@
 """
 03_dataset.py -- CipherGuard Stage 03: master index + leakage-free splits.
 
-Builds the item index and three split families (DATASET.md Section 5), each with an
-explicit leakage assertion. The splits are where the generalization claims live:
 
   split_random          i.i.d. detection baseline (E0). Grouped by VARIANT so a
                         cipher's clean + tampered items never straddle folds.
@@ -13,7 +11,6 @@ explicit leakage assertion. The splits are where the generalization claims live:
   split_family_holdoutSPN  train on ARX+Feistel, test on SPN -> cross-architecture
                         generalization (E3).
 
-Fails loud if any leakage assertion trips. Cluster-safe; checkpoint-logged.
 Usage: python scripts/03_dataset.py [--seed N]
 """
 from __future__ import annotations
