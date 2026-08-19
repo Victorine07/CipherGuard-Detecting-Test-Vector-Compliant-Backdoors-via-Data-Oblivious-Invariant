@@ -6,9 +6,6 @@ Turns new-dataset-thy-ciphers/*.thy into datasets/registry/<variant>.json, each
 listing the sites the tamper engine (Stage 01) will edit, plus a literature-grounded
 safe-round margin and a (behavioral, until an Isabelle node runs) verification result.
 
-Cluster-safe: PROJECT_ROOT from __file__, pathlib, no network, no Isabelle required.
-See PIPELINE.md (Stage 00) and DATASET.md (registry schema).
-
 Usage:
     python scripts/00_corpus.py [--limit N] [--no-verify]
                                 [--corpus-dir DIR] [--models-dir DIR] [--out DIR]
