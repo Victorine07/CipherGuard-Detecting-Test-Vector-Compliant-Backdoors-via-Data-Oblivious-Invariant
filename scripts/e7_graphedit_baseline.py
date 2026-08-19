@@ -2,9 +2,6 @@
 """
 e7_graphedit_baseline.py -- the "why not just diff against a reference?" baseline (B3).
 
-Makes the two regimes (THREAT_MODEL.md) concrete with a graph-edit-distance detector
-(subtree-hash multiset symmetric difference -- a cheap, exact graph-edit proxy):
-
   Regime A (reference available): distance to the item's OWN clean reference.
     -> catches EVERYTHING, including the value-only tampers (T1/T2/T4/T5) that the
        reference-free structural detector misses. This is why value-only tampers
@@ -17,7 +14,6 @@ Makes the two regimes (THREAT_MODEL.md) concrete with a graph-edit-distance dete
        naive diff does NOT solve Regime B -- where CipherGuard's structural detector
        (E1/E2/E6) is the contribution.
 
-Cluster-safe; numpy only; reads the graphs from Stage 02.
 """
 from __future__ import annotations
 import sys
