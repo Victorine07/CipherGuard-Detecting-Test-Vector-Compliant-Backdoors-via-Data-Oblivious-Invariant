@@ -10,7 +10,6 @@ schedule) CATCHES S1-S8's on-path leaks at zero clean false positives -- so the 
 holds under this adaptive strategy, not just the naive one. S6 (off-path, key schedule)
 remains the disclosed boundary.
 
-In-scope block ciphers only (AEAD excluded). Cluster-safe; numpy-free.
 """
 from __future__ import annotations
 import argparse
