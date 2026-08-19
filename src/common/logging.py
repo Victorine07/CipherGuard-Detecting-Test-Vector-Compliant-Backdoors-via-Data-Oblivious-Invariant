@@ -1,9 +1,5 @@
 """Cluster-tail-friendly checkpoint logging for CipherGuard.
 
-Every stage uses one StageLogger so the user can follow a batch job by tailing a
-log and pinpoint exactly where a failure happened (CLAUDE.md Section 6). Output
-goes to BOTH the console and logs/<stage>/<timestamp>.log.
-
 Format:  [CipherGuard][<stage>] [CKPT k/N] <message>
 """
 from __future__ import annotations
