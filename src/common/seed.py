@@ -1,4 +1,4 @@
-"""Deterministic seeding for reproducible runs (CLAUDE.md Section 7)."""
+"""Deterministic seeding for reproducible runs """
 from __future__ import annotations
 import os
 import random
