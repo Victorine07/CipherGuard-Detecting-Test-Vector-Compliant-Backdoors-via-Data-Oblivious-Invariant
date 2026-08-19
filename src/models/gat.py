@@ -1,8 +1,5 @@
-"""Hybrid GAT + MLP detector (CipherGuard Phase 5 — GPU cluster model).
-
-This is the production model that replaces the numpy readout (Stage 04). It runs on
-the cluster; it REQUIRES torch + torch_geometric (see requirements-gpu.txt) and is
-not importable on the dev box. Design mirrors the paper:
+"""Hybrid GAT + MLP detector.
+ Design follows:
 
   * GAT branch  : GATConv layers over the firewall-safe structural graph (54-dim
                   node features, `src/extraction/graph.py`) -> mean+max readout.
