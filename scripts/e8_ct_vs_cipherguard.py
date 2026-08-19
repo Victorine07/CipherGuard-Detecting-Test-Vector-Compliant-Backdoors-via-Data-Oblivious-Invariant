@@ -8,7 +8,6 @@ what CipherGuard (CT + a key->output dataflow signal) catches. The decisive colu
 the BRANCHLESS leak: constant-time by construction, so CT passes it, while CipherGuard's
 dataflow signal flags it. Clean false-positive rates are reported for both.
 
-Cluster-safe; numpy-free; reuses the verified backdoor styles and the oracle.
 Usage: python scripts/e8_ct_vs_cipherguard.py [--limit N]
 """
 from __future__ import annotations
