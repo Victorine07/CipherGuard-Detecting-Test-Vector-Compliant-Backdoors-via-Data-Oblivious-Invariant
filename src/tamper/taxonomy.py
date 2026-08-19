@@ -1,4 +1,4 @@
-"""Tamper taxonomy T0-T6 (CipherGuard). Operationalizes THREAT_MODEL.md Section 6.
+"""Tamper taxonomy T0-T6 (CipherGuard).
 
 Labels are objective by construction (we inject the tamper). Difficulty tiers:
   easy : usually changes I/O behavior -> fails test vectors (sanity floor).
