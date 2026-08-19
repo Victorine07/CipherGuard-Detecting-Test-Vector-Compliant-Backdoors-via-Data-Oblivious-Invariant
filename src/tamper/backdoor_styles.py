@@ -1,7 +1,6 @@
 """Diverse T6 backdoor styles for the robustness / adaptive-adversary study (E6).
 
-The gate showed our detector catches T6 -- but our T6 was ONE style. The scientific
-question (and the reviewers' "easy to fool" / "did it learn or memorize?" concern):
+The gate showed our detector catches T6 -- but our T6 was ONE style. 
 does detection survive a backdoor injected a DIFFERENT way? We implement four
 structurally-distinct styles, all of which (a) preserve the test vector and (b) are
 exploitable, but differ along four axes:
