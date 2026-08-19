@@ -15,7 +15,6 @@ is exploitable, then run two analyses on cipher-disjoint cohorts:
 High held-out-style detection => the detector learned "backdoor-ness", not one
 pattern. Low => an honest brittleness boundary, found before review not after.
 
-Cluster-safe; checkpoint-logged; numpy only.
 Usage: python scripts/e6_backdoor_styles.py [--limit N] [--seed N]
 """
 from __future__ import annotations
