@@ -10,7 +10,6 @@ Outputs:
   datasets/graphs/source/<item_id>.json   graph + pdv + localization
   updates datasets/items/<item_id>.json    graph_path, pdv, node/edge counts, firewall
 
-Cluster-safe; checkpoint-logged; fails loud on empty/malformed graphs.
 Usage: python scripts/02_extract.py [--limit N] [--no-firewall]
 """
 from __future__ import annotations
