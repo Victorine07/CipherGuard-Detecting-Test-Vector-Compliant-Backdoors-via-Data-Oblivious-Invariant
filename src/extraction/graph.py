@@ -5,12 +5,12 @@ firewall-safe node features. "Firewall-safe" = NO identifier strings enter the
 feature vector; nodes are described only by AST kind, operator semantics, derived
 semantic role (encrypt-entry / round-fn / key-schedule), key/data taint (from
 argument POSITION, not names), and constant magnitude. Cipher identity cannot leak
-through names -> directly supports the anonymization ablation (EXPERIMENTS.md E4).
+through names 
 
 Each node also carries a subtree hash (kind+op+const-value+child-hashes, with Names
 anonymized) so Stage 02 can localize a tamper as the clean/tampered graph delta.
 
-Runtime path is source-only (no Isabelle) per CLAUDE.md Section 5.
+Runtime path is source-only (no Isabelle) 
 """
 from __future__ import annotations
 import ast
