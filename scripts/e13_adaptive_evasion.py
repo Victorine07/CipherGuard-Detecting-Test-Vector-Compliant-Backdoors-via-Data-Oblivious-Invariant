@@ -16,7 +16,6 @@ Both are validated as real backdoors (pass the test vector, exploitable). We rep
 current check, then harden the check (structural sanitizer + output-taint dataflow) and re-test,
 including a regression check that the six/eight benchmark styles stay caught and clean FPR stays 0.
 
-Cluster-safe, checkpoint-logged, no Isabelle / network.
 """
 from __future__ import annotations
 import ast
