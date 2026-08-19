@@ -1,7 +1,7 @@
 """Executable oracle for the tamper engine (CipherGuard Stage 01).
 
 Given a clean model source and a tampered model source, it measures OBJECTIVE
-properties by execution (no Isabelle needed on the runtime path -- CLAUDE.md Section 5):
+properties by execution:
 
   invertible          : dec_t(enc_t(pt,key), key) == pt over random inputs
   passes_test_vector  : tampered matches the clean reference on a known-answer
