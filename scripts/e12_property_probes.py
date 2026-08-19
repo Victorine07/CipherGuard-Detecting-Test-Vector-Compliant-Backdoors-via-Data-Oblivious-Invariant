@@ -9,7 +9,7 @@ reduction is not reference-free detectable, because lightweight ciphers over-pro
 cryptanalytic margin, so they reach full diffusion well before their full round count).
 
 Non-circular by construction: a weakened cipher fails a probe for a genuine cryptographic reason,
-not because a signature was injected. Cluster-safe, checkpoint-logged, no Isabelle / network.
+not because a signature was injected.
 Usage: python scripts/e12_property_probes.py [--limit N] [--t3-sites K]
 """
 from __future__ import annotations
