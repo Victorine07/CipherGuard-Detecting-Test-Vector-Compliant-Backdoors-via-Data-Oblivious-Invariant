@@ -1,14 +1,4 @@
 """Literature-derived attack data + cipher family map (CipherGuard).
-
-REUSED from usenix-previous-implementation/cipher_profiles.py -- but ONLY the
-factual `ATTACK_DB` (published best-attack round counts per variant). The old
-security-scoring / low-medium-high labelling is DEPRECATED and intentionally NOT
-ported (see CLAUDE.md: no absolute security scoring).
-
-`ATTACK_DB` gives, per (block, key): total_rounds and rounds_broken from the
-cryptanalytic literature. We use it ONLY to ground the T1 (round-reduction)
-"safe margin" -- i.e. the round count at/below which the community considers the
-cipher broken -- so T1 labels are literature-grounded rather than magic numbers.
 """
 from __future__ import annotations
 from typing import Dict, Optional, Tuple
@@ -64,8 +54,7 @@ def family_of(base_cipher: str) -> str:
 
 def safe_round_margin(base_cipher: str, block: int, key: int) -> Optional[dict]:
     """Return {total_rounds, rounds_broken, broken_at_or_below, attack_type} from the
-    literature, or None if we have no data for this variant (recorded honestly as
-    a TODO rather than guessed -- CLAUDE.md scientific-integrity rules)."""
+    literature, or None if we have no data for this variant."""
     entry = ATTACK_DB.get(base_cipher.capitalize(), {}).get((block, key))
     if not entry:
         return None
