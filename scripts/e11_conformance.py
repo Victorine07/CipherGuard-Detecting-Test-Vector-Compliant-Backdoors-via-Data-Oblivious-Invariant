@@ -7,9 +7,6 @@ reproduces the official published test vectors (fails loudly otherwise, since a 
 invalidate every downstream verdict). Then, per implementation, reports official-vector reproduction
 and random-input agreement with the reference, and classifies it CONFORMING / NON-CONFORMING / ERROR.
 
-Cluster-safe: PROJECT_ROOT-relative paths, no Isabelle, no network (third-party files are vendored).
-Checkpoint-logged so a failure can be pinpointed from a log tail.
-
 Usage: python scripts/e11_conformance.py [--n-random N] [--limit K] [--manifest PATH]
 """
 from __future__ import annotations
