@@ -2,8 +2,6 @@
 
 **Reference-free detection of test-vector–passing cryptographic backdoors in lightweight block-cipher implementations, via the data-oblivious invariant.**
 
-This repository contains the code and inputs to reproduce every experiment in the paper. It is
-anonymized for double-blind review.
 
 CipherGuard decides whether an untrusted cipher implementation has been **backdoored** — including
 a backdoor crafted to still pass the published test vectors — **without a trusted reference and
