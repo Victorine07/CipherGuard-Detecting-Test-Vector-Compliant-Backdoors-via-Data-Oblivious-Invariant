@@ -10,7 +10,6 @@ whether L2 flags them. We also compute each S-box's actual nonlinearity, so the 
 L2 fires because the substitution is genuinely weaker, not because of any injected signature. This
 is a direct, non-circular test of the property-probe layer.
 
-Cluster-safe, checkpoint-logged, no Isabelle / network.
 """
 from __future__ import annotations
 import ast
