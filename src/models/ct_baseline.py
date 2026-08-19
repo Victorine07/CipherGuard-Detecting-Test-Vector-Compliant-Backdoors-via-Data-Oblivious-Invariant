@@ -15,7 +15,7 @@ on the branchless leak that CT misses.
 
 Both checks are scoped to the encryption routine (where the data-oblivious invariant
 holds); the key schedule -- which legitimately computes on the key -- is out of scope for
-both (the S6 boundary, THREAT_MODEL.md).
+both 
 """
 from __future__ import annotations
 import ast
